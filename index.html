@@ -30,11 +30,16 @@
 
           <!-- Shorthand for v-on is @ -->
           <!-- More eventes: @click, @mouseover, @submit on a form, @keyup.enter in input -->
-          <div v-for="variant in variants" :key="variant.variantId">
-            <p @mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor }}</p>
+          <div v-for="variant in variants" 
+               :key="variant.variantId"
+               @mouseover="updateProduct(variant.variantImage)"
+               class="color-box"
+               :style="{ 'background-color': variant.variantColor}">
           </div>
 
-          <button v-on:click="addToCart">Add to cart</button>
+          <button v-on:click="addToCart" 
+                  :disabled="!inStock"
+                  :class="{ disabledButton: !inStock }">Add to cart</button>
 
           <div class="cart">
             <p>Cart({{ cart }})</p>
