@@ -1,3 +1,69 @@
+Vue.component('product-review', {
+  template: `
+    <!-- .prevent will prevent the default behavior of submit (won't refresh) -->
+    <form class="review-form" @submit.prevent="onSubmit">
+      <p v-if="errors.length">
+        <b>Please correct the following error(s):</b>
+        <ul>
+          <li v-for="error in errors">{{ error }}</li>
+        </ul>
+      </p>
+
+      <p>
+        <label for="name">Name:</label>
+        <input id="name" v-model="name"></textarea>
+      </p>
+
+      <p>
+        <label for="Review">Review:</label>
+        <textarea id="review" v-model="review"></textarea>
+      </p>
+
+      <p>
+        <label for="rating">Rating:</label>
+        <select id="rating" v-model.number="rating">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+      </p>
+
+      <p>
+        <input type="submit" value="Submit">
+      </p>
+    </form>
+  `,
+  data() {
+    return {
+      name: null,
+      review: null,
+      rating: null,
+      errors: []
+    }
+  },
+  methods: {
+    onSubmit() {
+      if (this.name && this.review && this.rating) {
+        const productReview = {
+          name: this.name,
+          review: this.review,
+          rating: this.rating
+        }
+        this.$emit('review-submitted', productReview)
+        this.name = null
+        this.review = null
+        this.rating = null
+      } else {
+         if(!this.name) this.errors.push('Name required.')
+         if(!this.review) this.errors.push('Name review.')
+         if(!this.rating) this.errors.push('Name rating.')
+      }
+    }
+  }
+})
+
 Vue.component('product', {
   props: {
     premium: {
@@ -36,6 +102,20 @@ Vue.component('product', {
               :disabled="!inStock"
               :class="{ disabledButton: !inStock }">Add to cart</button>
     </div>
+
+    <div>
+      <h2>Reviews</h2>
+      <p v-show="!reviews.length">There are no reviews yet</p>
+      <ul>
+        <li v-for="review in reviews">
+          <p>{{ review.name }}</p>
+          <p>Rating: {{ review.rating ? review.rating : 'Not available' }}</p>
+          <p>Review: {{ review.review }}</p>
+        </li>
+      </ul>
+    <div>
+
+    <product-review @review-submitted="addReview"></product-review>
   </div>
   `,
   data() {
@@ -58,7 +138,8 @@ Vue.component('product', {
           variantImage: './assets/vmSocks-blue-onWhite.jpg',
           variantQuantity: 0
         }
-      ]
+      ],
+      reviews: []
     }
   },
   methods: {
@@ -67,6 +148,9 @@ Vue.component('product', {
     },
     updateProduct(index) {
       this.selectedVariant = index;
+    },
+    addReview(review) {
+      this.reviews.push(review)
     }
   },
   computed: {
