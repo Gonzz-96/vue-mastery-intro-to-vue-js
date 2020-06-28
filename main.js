@@ -37,28 +37,26 @@ Vue.component('product', {
   `,
   data() {
     return {
-      data: {
-        brand: 'Vue Mastery',
-        product: 'Socks',
-        selectedVariant: 0,
-        inventory: 100,
-        details: ['80% cotton', '20% polyester', 'Gender-neutral'],
-        variants: [
-          {
-            variantId: 2234,
-            variantColor: 'green',
-            variantImage: './assets/vmSocks-green-onWhite.jpg',
-            variantQuantity: 10
-          },
-          {
-            variantId: 2235,
-            variantColor: 'blue',
-            variantImage: './assets/vmSocks-blue-onWhite.jpg',
-            variantQuantity: 0
-          }
-        ],
-        cart: 0
-      }
+      brand: 'Vue Mastery',
+      product: 'Socks',
+      selectedVariant: 0,
+      inventory: 100,
+      details: ['80% cotton', '20% polyester', 'Gender-neutral'],
+      variants: [
+        {
+          variantId: 2234,
+          variantColor: 'green',
+          variantImage: './assets/vmSocks-green-onWhite.jpg',
+          variantQuantity: 10
+        },
+        {
+          variantId: 2235,
+          variantColor: 'blue',
+          variantImage: './assets/vmSocks-blue-onWhite.jpg',
+          variantQuantity: 0
+        }
+      ],
+      cart: 0
     }
   },
   methods: {
